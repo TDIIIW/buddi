@@ -2,263 +2,269 @@
 <html lang="nl">
 <head>
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Buddi" />
-  <meta name="theme-color" content="#4CAF82" />
-  <title>Buddi – Spending Companion</title>
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="css/app.css" />
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="Buddi" name="apple-mobile-web-app-title"/>
+    <meta content="#4CAF82" name="theme-color"/>
+    <title>Buddi – Spending Companion</title>
+    <link href="manifest.json" rel="manifest"/>
+    <link href="css/app.css" rel="stylesheet"/>
 </head>
 <body>
 
 <div id="app">
 
-  <!-- ─── ONBOARDING ──────────────────────────────────────── -->
-  <div class="screen" id="screen-onboard">
-    <div class="onboard-hero">
-      <div class="hero-blob">🌱</div>
-      <h1 class="onboard-title">Meet <span>Buddi</span></h1>
-      <p class="onboard-sub">Your friendly spending companion. No judgment, no audits — just a little nudge to spend smarter.</p>
-    </div>
-    <div class="onboard-form">
-      <div class="field">
-        <label>Your name</label>
-        <div class="input-wrap">
-          <input type="text" id="name-input" placeholder="e.g. Kieran" autocomplete="given-name" />
+    <!-- ─── ONBOARDING ──────────────────────────────────────── -->
+    <div class="screen" id="screen-onboard">
+        <div class="onboard-hero">
+            <div class="hero-blob">🌱</div>
+            <h1 class="onboard-title">Meet <span>Buddi</span></h1>
+            <p class="onboard-sub">Your friendly spending companion. No judgment, no audits — just a little nudge to
+                spend smarter.</p>
         </div>
-      </div>
-      <div class="field">
-        <label>Monthly take-home pay</label>
-        <div class="input-wrap">
-          <span class="prefix">€</span>
-          <input type="number" id="income-input" class="has-prefix" placeholder="2300" inputmode="decimal" />
+        <div class="onboard-form">
+            <div class="field">
+                <label>Your name</label>
+                <div class="input-wrap">
+                    <input autocomplete="given-name" id="name-input" placeholder="e.g. Kieran" type="text"/>
+                </div>
+            </div>
+            <div class="field">
+                <label>Monthly take-home pay</label>
+                <div class="input-wrap">
+                    <span class="prefix">€</span>
+                    <input class="has-prefix" id="income-input" inputmode="decimal" placeholder="2300" type="number"/>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="btn-start">Let's go →</button>
         </div>
-      </div>
-      <button class="btn btn-primary" id="btn-start">Let's go →</button>
     </div>
-  </div>
 
-  <!-- ─── SUGGEST ─────────────────────────────────────────── -->
-  <div class="screen" id="screen-suggest">
-    <div class="topbar">
-      <div>
-        <div class="topbar-title" id="suggest-greeting">Hey! 👋</div>
-        <div class="topbar-sub">Here's what I suggest</div>
-      </div>
-    </div>
-    <div class="scroll-content">
-      <div class="buddy" style="margin-top:8px">
-        <div class="buddy-avatar">🌱</div>
-        <div class="buddy-text" id="suggest-msg"></div>
-      </div>
-      <div class="card">
-        <div class="card-label">Your budget breakdown</div>
-        <div class="suggest-breakdown" id="suggest-breakdown"></div>
-      </div>
-      <div class="card">
-        <div class="card-label">Adjust if you want</div>
-        <div class="field">
-          <label>Monthly spending budget</label>
-          <div class="input-wrap">
-            <span class="prefix">€</span>
-            <input type="number" id="custom-budget" class="has-prefix" inputmode="decimal" />
-          </div>
+    <!-- ─── SUGGEST ─────────────────────────────────────────── -->
+    <div class="screen" id="screen-suggest">
+        <div class="topbar">
+            <div>
+                <div class="topbar-title" id="suggest-greeting">Hey! 👋</div>
+                <div class="topbar-sub">Here's what I suggest</div>
+            </div>
         </div>
-      </div>
-      <button class="btn btn-primary" id="btn-confirm" style="margin-bottom:32px">Looks good, let's start 🎉</button>
-    </div>
-  </div>
-
-  <!-- ─── HOME ────────────────────────────────────────────── -->
-  <div class="screen" id="screen-home">
-    <div class="topbar">
-      <div>
-        <div class="topbar-title">Hey <span id="home-name"></span> 👋</div>
-        <div class="topbar-sub" id="home-date"></div>
-      </div>
-      <div class="streak-badge streak-zero" id="streak-badge">
-        <span class="streak-flame">🔥</span><span>0</span>
-      </div>
-    </div>
-    <div class="scroll-content">
-      <div class="buddy">
-        <div class="buddy-avatar">🌱</div>
-        <div class="buddy-text" id="buddy-tip">Loading...</div>
-      </div>
-
-      <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-          <div class="card-label" style="margin:0">This month</div>
-          <div style="font-size:13px;font-weight:700;color:var(--text-2)" id="month-label"></div>
+        <div class="scroll-content">
+            <div class="buddy" style="margin-top:8px">
+                <div class="buddy-avatar">🌱</div>
+                <div class="buddy-text" id="suggest-msg"></div>
+            </div>
+            <div class="card">
+                <div class="card-label">Your budget breakdown</div>
+                <div class="suggest-breakdown" id="suggest-breakdown"></div>
+            </div>
+            <div class="card">
+                <div class="card-label">Adjust if you want</div>
+                <div class="field">
+                    <label>Monthly spending budget</label>
+                    <div class="input-wrap">
+                        <span class="prefix">€</span>
+                        <input class="has-prefix" id="custom-budget" inputmode="decimal" type="number"/>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="btn-confirm" style="margin-bottom:32px">Looks good, let's start 🎉
+            </button>
         </div>
-        <div class="progress-track">
-          <div class="progress-fill" id="month-bar" style="width:0%"></div>
+    </div>
+
+    <!-- ─── HOME ────────────────────────────────────────────── -->
+    <div class="screen" id="screen-home">
+        <div class="topbar">
+            <div>
+                <div class="topbar-title">Hey <span id="home-name"></span> 👋</div>
+                <div class="topbar-sub" id="home-date"></div>
+            </div>
+            <div class="streak-badge streak-zero" id="streak-badge">
+                <span class="streak-flame">🔥</span><span>0</span>
+            </div>
         </div>
-      </div>
+        <div class="scroll-content">
+            <div class="buddy">
+                <div class="buddy-avatar">🌱</div>
+                <div class="buddy-text" id="buddy-tip">Loading...</div>
+            </div>
 
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-val" id="stat-spent-today">€0.00</div>
-          <div class="stat-lbl">spent today</div>
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                    <div class="card-label" style="margin:0">This month</div>
+                    <div id="month-label" style="font-size:13px;font-weight:700;color:var(--text-2)"></div>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="month-bar" style="width:0%"></div>
+                </div>
+            </div>
+
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-spent-today">€0.00</div>
+                    <div class="stat-lbl">spent today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="stat-left-today">€0.00</div>
+                    <div class="stat-lbl">left today</div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <div class="section-title">Today's expenses</div>
+            </div>
+            <div class="expense-list" id="today-expenses"></div>
         </div>
-        <div class="stat-card">
-          <div class="stat-val" id="stat-left-today">€0.00</div>
-          <div class="stat-lbl">left today</div>
+    </div>
+
+    <!-- ─── INSIGHTS ────────────────────────────────────────── -->
+    <div class="screen" id="screen-insights">
+        <div class="topbar">
+            <div>
+                <div class="topbar-title">Insights</div>
+                <div class="topbar-sub" id="insights-month"></div>
+            </div>
         </div>
-      </div>
-
-      <div class="section-header">
-        <div class="section-title">Today's expenses</div>
-      </div>
-      <div class="expense-list" id="today-expenses"></div>
-    </div>
-  </div>
-
-  <!-- ─── INSIGHTS ────────────────────────────────────────── -->
-  <div class="screen" id="screen-insights">
-    <div class="topbar">
-      <div>
-        <div class="topbar-title">Insights</div>
-        <div class="topbar-sub" id="insights-month"></div>
-      </div>
-    </div>
-    <div class="scroll-content">
-      <div class="card" style="text-align:center;padding:24px 18px">
-        <div style="font-size:36px;font-weight:900;color:var(--text)" id="insights-total">€0.00</div>
-        <div style="font-size:14px;font-weight:600;color:var(--text-2);margin-bottom:14px" id="insights-budget"></div>
-        <div class="progress-track">
-          <div class="progress-fill" id="insights-bar" style="width:0%"></div>
+        <div class="scroll-content">
+            <div class="card" style="text-align:center;padding:24px 18px">
+                <div id="insights-total" style="font-size:36px;font-weight:900;color:var(--text)">€0.00</div>
+                <div id="insights-budget"
+                     style="font-size:14px;font-weight:600;color:var(--text-2);margin-bottom:14px"></div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="insights-bar" style="width:0%"></div>
+                </div>
+            </div>
+            <div class="buddy">
+                <div class="buddy-avatar">🌱</div>
+                <div class="buddy-text" id="insights-tip">Loading...</div>
+            </div>
+            <div class="section-header">
+                <div class="section-title">By category</div>
+            </div>
+            <div class="card">
+                <div id="cat-breakdown"></div>
+            </div>
         </div>
-      </div>
-      <div class="buddy">
-        <div class="buddy-avatar">🌱</div>
-        <div class="buddy-text" id="insights-tip">Loading...</div>
-      </div>
-      <div class="section-header">
-        <div class="section-title">By category</div>
-      </div>
-      <div class="card">
-        <div id="cat-breakdown"></div>
-      </div>
     </div>
-  </div>
 
-  <!-- ─── SETTINGS ────────────────────────────────────────── -->
-  <div class="screen" id="screen-settings">
-    <div class="topbar">
-      <div>
-        <div class="topbar-title">Settings</div>
-        <div class="topbar-sub">Adjust your budget anytime</div>
-      </div>
-    </div>
-    <div class="scroll-content">
-      <div class="settings-section">
-        <div class="settings-label">Your budget</div>
-        <div class="settings-row">
-          <span class="settings-row-label">Monthly income</span>
-          <div style="display:flex;align-items:center;gap:4px">
-            <span style="color:var(--green);font-weight:800">€</span>
-            <input class="settings-input" type="number" id="set-income" inputmode="decimal" />
-          </div>
+    <!-- ─── SETTINGS ────────────────────────────────────────── -->
+    <div class="screen" id="screen-settings">
+        <div class="topbar">
+            <div>
+                <div class="topbar-title">Settings</div>
+                <div class="topbar-sub">Adjust your budget anytime</div>
+            </div>
         </div>
-        <div class="settings-row">
-          <span class="settings-row-label">Spending budget</span>
-          <div style="display:flex;align-items:center;gap:4px">
-            <span style="color:var(--green);font-weight:800">€</span>
-            <input class="settings-input" type="number" id="set-budget" inputmode="decimal" />
-          </div>
+        <div class="scroll-content">
+            <div class="settings-section">
+                <div class="settings-label">Your budget</div>
+                <div class="settings-row">
+                    <span class="settings-row-label">Monthly income</span>
+                    <div style="display:flex;align-items:center;gap:4px">
+                        <span style="color:var(--green);font-weight:800">€</span>
+                        <input class="settings-input" id="set-income" inputmode="decimal" type="number"/>
+                    </div>
+                </div>
+                <div class="settings-row">
+                    <span class="settings-row-label">Spending budget</span>
+                    <div style="display:flex;align-items:center;gap:4px">
+                        <span style="color:var(--green);font-weight:800">€</span>
+                        <input class="settings-input" id="set-budget" inputmode="decimal" type="number"/>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="btn-save-settings" style="margin-top:8px">Save changes</button>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-label">Streak info</div>
+                <div class="settings-row">
+                    <span class="settings-row-label">Current streak 🔥</span>
+                    <span class="settings-row-val" id="settings-streak">0 days</span>
+                </div>
+                <div style="background:var(--surface);border-radius:var(--radius-sm);padding:14px 16px;box-shadow:var(--shadow);font-size:13px;font-weight:600;color:var(--text-2);line-height:1.6">
+                    Your streak breaks if you:<br>
+                    • Go over your daily budget<br>
+                    • Hit your monthly limit<br>
+                    • Forget to log for a day
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-label">Data</div>
+                <button class="btn btn-danger" id="btn-reset">Reset all data</button>
+            </div>
         </div>
-        <button class="btn btn-primary" id="btn-save-settings" style="margin-top:8px">Save changes</button>
-      </div>
+    </div>
 
-      <div class="settings-section">
-        <div class="settings-label">Streak info</div>
-        <div class="settings-row">
-          <span class="settings-row-label">Current streak 🔥</span>
-          <span class="settings-row-val" id="settings-streak">0 days</span>
+    <!-- ─── ADD EXPENSE (slide up) ──────────────────────────── -->
+    <div class="screen" id="screen-add" style="display:none;z-index:60;background:var(--bg)">
+        <div class="add-header">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+                <div>
+                    <h2>Log expense</h2>
+                    <p>Keep that streak alive 🔥</p>
+                </div>
+                <button id="btn-cancel-add"
+                        style="background:var(--surface-2);border:none;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center">
+                    ✕
+                </button>
+            </div>
         </div>
-        <div style="background:var(--surface);border-radius:var(--radius-sm);padding:14px 16px;box-shadow:var(--shadow);font-size:13px;font-weight:600;color:var(--text-2);line-height:1.6">
-          Your streak breaks if you:<br>
-          • Go over your daily budget<br>
-          • Hit your monthly limit<br>
-          • Forget to log for a day
+
+        <div class="amount-display">
+            <span class="amount-prefix">€</span>
+            <span class="amount-value" id="amount-value">0</span>
         </div>
-      </div>
 
-      <div class="settings-section">
-        <div class="settings-label">Data</div>
-        <button class="btn btn-danger" id="btn-reset">Reset all data</button>
-      </div>
-    </div>
-  </div>
+        <div class="cat-scroll" id="cat-scroll"></div>
 
-  <!-- ─── ADD EXPENSE (slide up) ──────────────────────────── -->
-  <div class="screen" id="screen-add" style="display:none;z-index:60;background:var(--bg)">
-    <div class="add-header">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <h2>Log expense</h2>
-          <p>Keep that streak alive 🔥</p>
+        <div class="desc-wrap">
+            <input id="exp-desc" placeholder="What was it? e.g. oat milk latte" type="text"/>
         </div>
-        <button id="btn-cancel-add" style="background:var(--surface-2);border:none;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
-      </div>
+
+        <div class="numpad" id="numpad">
+            <button class="numpad-btn" data-val="1">1</button>
+            <button class="numpad-btn" data-val="2">2</button>
+            <button class="numpad-btn" data-val="3">3</button>
+            <button class="numpad-btn" data-val="4">4</button>
+            <button class="numpad-btn" data-val="5">5</button>
+            <button class="numpad-btn" data-val="6">6</button>
+            <button class="numpad-btn" data-val="7">7</button>
+            <button class="numpad-btn" data-val="8">8</button>
+            <button class="numpad-btn" data-val="9">9</button>
+            <button class="numpad-btn dot" data-val=".">·</button>
+            <button class="numpad-btn zero" data-val="0">0</button>
+            <button class="numpad-btn del" data-val="del">⌫</button>
+        </div>
+
+        <div class="save-wrap">
+            <button class="btn btn-primary" id="btn-save-expense" style="flex:1">Save ✓</button>
+        </div>
     </div>
 
-    <div class="amount-display">
-      <span class="amount-prefix">€</span>
-      <span class="amount-value" id="amount-value">0</span>
-    </div>
+    <!-- ─── FAB ─────────────────────────────────────────────── -->
+    <button aria-label="Log expense" class="fab hidden" id="fab">+</button>
 
-    <div class="cat-scroll" id="cat-scroll"></div>
+    <!-- ─── BOTTOM NAV ──────────────────────────────────────── -->
+    <nav class="bottom-nav">
+        <button class="nav-btn" data-tab="home">
+            <span class="nav-icon">🏠</span>
+            Home
+        </button>
+        <button class="nav-btn" data-tab="insights">
+            <span class="nav-icon">📊</span>
+            Insights
+        </button>
+        <button class="nav-btn" data-tab="settings">
+            <span class="nav-icon">⚙️</span>
+            Settings
+        </button>
+    </nav>
 
-    <div class="desc-wrap">
-      <input type="text" id="exp-desc" placeholder="What was it? e.g. oat milk latte" />
-    </div>
-
-    <div class="numpad" id="numpad">
-      <button class="numpad-btn" data-val="1">1</button>
-      <button class="numpad-btn" data-val="2">2</button>
-      <button class="numpad-btn" data-val="3">3</button>
-      <button class="numpad-btn" data-val="4">4</button>
-      <button class="numpad-btn" data-val="5">5</button>
-      <button class="numpad-btn" data-val="6">6</button>
-      <button class="numpad-btn" data-val="7">7</button>
-      <button class="numpad-btn" data-val="8">8</button>
-      <button class="numpad-btn" data-val="9">9</button>
-      <button class="numpad-btn dot" data-val=".">·</button>
-      <button class="numpad-btn zero" data-val="0">0</button>
-      <button class="numpad-btn del" data-val="del">⌫</button>
-    </div>
-
-    <div class="save-wrap">
-      <button class="btn btn-primary" id="btn-save-expense" style="flex:1">Save ✓</button>
-    </div>
-  </div>
-
-  <!-- ─── FAB ─────────────────────────────────────────────── -->
-  <button class="fab hidden" id="fab" aria-label="Log expense">+</button>
-
-  <!-- ─── BOTTOM NAV ──────────────────────────────────────── -->
-  <nav class="bottom-nav">
-    <button class="nav-btn" data-tab="home">
-      <span class="nav-icon">🏠</span>
-      Home
-    </button>
-    <button class="nav-btn" data-tab="insights">
-      <span class="nav-icon">📊</span>
-      Insights
-    </button>
-    <button class="nav-btn" data-tab="settings">
-      <span class="nav-icon">⚙️</span>
-      Settings
-    </button>
-  </nav>
-
-  <!-- ─── CELEBRATION LAYER ───────────────────────────────── -->
-  <div id="celebration"></div>
+    <!-- ─── CELEBRATION LAYER ───────────────────────────────── -->
+    <div id="celebration"></div>
 
 </div>
 
