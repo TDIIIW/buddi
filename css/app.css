@@ -37,7 +37,6 @@ html, body {
     -webkit-font-smoothing: antialiased;
     overflow: hidden;
 }
-
 #app {
     max-width: 430px;
     margin: 0 auto;
@@ -46,7 +45,6 @@ html, body {
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden;
     background: var(--bg);
 }
 
@@ -56,11 +54,9 @@ html, body {
     inset: 0;
     display: flex;
     flex-direction: column;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(12px);
-    transition: opacity 0.28s ease, transform 0.28s ease;
+    overflow: hidden;
 }
+
 
 .screen.active {
     opacity: 1;
@@ -234,13 +230,13 @@ html, body {
 }
 
 /* SCROLL CONTENT */
+
 .scroll-content {
     flex: 1;
-    overflow-y: auto;
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-    padding: 0 20px calc(100px + env(safe-area-inset-bottom, 34px));
+    padding: 0 20px calc(120px + env(safe-area-inset-bottom, 34px));
 }
-
 .scroll-content::-webkit-scrollbar {
     display: none;
 }
