@@ -5,8 +5,8 @@
   "start_url": "/buddi/",
   "display": "standalone",
   "scope": "/buddi/",
-  "background_color": "#FAFAF8",
-  "theme_color": "#4CAF82",
+  "background_color": "#F2F2F7",
+  "theme_color": "#30D158",
   "orientation": "portrait",
   "icons": [
     {

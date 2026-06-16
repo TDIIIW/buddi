@@ -1,270 +1,345 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-
-    <meta charset="UTF-8"/>
-    <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
-    <meta content="yes" name="apple-mobile-web-app-capable"/>
-    <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
-    <meta content="Buddi" name="apple-mobile-web-app-title"/>
-    <meta content="#4CAF82" name="theme-color"/>
-    <title>Buddi – Spending Companion</title>
-    <link href="manifest.json" rel="manifest"/>
-    <link href="css/app.css" rel="stylesheet"/>
+  <meta charset="UTF-8"/>
+  <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+  <meta content="yes" name="apple-mobile-web-app-capable"/>
+  <meta content="default" name="apple-mobile-web-app-status-bar-style"/>
+  <meta content="Buddi" name="apple-mobile-web-app-title"/>
+  <meta content="#30D158" name="theme-color"/>
+  <title>Buddi</title>
+  <link href="manifest.json" rel="manifest"/>
+  <link href="icons/icon-192.png" rel="apple-touch-icon"/>
+  <link href="css/app.css" rel="stylesheet"/>
 </head>
 <body>
 
 <div id="app">
 
-    <!-- ─── ONBOARDING ──────────────────────────────────────── -->
-    <div class="screen" id="screen-onboard">
-        <div class="onboard-hero">
-            <div class="hero-blob">🌱</div>
-            <h1 class="onboard-title">Meet <span>Buddi</span></h1>
-            <p class="onboard-sub">Your friendly spending companion. No judgment, no audits — just a little nudge to
-                spend smarter.</p>
+  <!-- ─── ONBOARDING ──────────────────────────────────── -->
+  <div class="screen" id="screen-onboard">
+    <div class="onboard-hero">
+      <div class="hero-blob">🌱</div>
+      <h1 class="onboard-title">Meet <span>Buddi</span></h1>
+      <p class="onboard-sub">Your friendly spending companion. No judgment — just a little nudge to spend smarter.</p>
+    </div>
+    <div class="onboard-form">
+      <div class="field">
+        <label>Your name</label>
+        <div class="input-wrap">
+          <input autocomplete="given-name" id="name-input" placeholder="e.g. Kieran" type="text"/>
         </div>
-        <div class="onboard-form">
-            <div class="field">
-                <label>Your name</label>
-                <div class="input-wrap">
-                    <input autocomplete="given-name" id="name-input" placeholder="e.g. Kieran" type="text"/>
-                </div>
-            </div>
-            <div class="field">
-                <label>Monthly take-home pay</label>
-                <div class="input-wrap">
-                    <span class="prefix">€</span>
-                    <input class="has-prefix" id="income-input" inputmode="decimal" placeholder="2300" type="number"/>
-                </div>
-            </div>
-            <button class="btn btn-primary" id="btn-start">Let's go →</button>
+      </div>
+      <div class="field">
+        <label>Monthly take-home pay</label>
+        <div class="input-wrap">
+          <span class="prefix">€</span>
+          <input class="has-prefix" id="income-input" inputmode="decimal" placeholder="2300" type="number"/>
         </div>
+      </div>
+      <button class="btn btn-primary" id="btn-start">Let's go →</button>
+    </div>
+  </div>
+
+  <!-- ─── SUGGEST ─────────────────────────────────────── -->
+  <div class="screen" id="screen-suggest">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="suggest-greeting">Hey! 👋</div>
+        <div class="topbar-sub">Here's what I suggest</div>
+      </div>
+    </div>
+    <div class="scroll-content">
+      <div class="buddy" style="margin-top:4px">
+        <div class="buddy-avatar">🌱</div>
+        <div class="buddy-text" id="suggest-msg"></div>
+      </div>
+      <div class="card">
+        <div class="card-label">Your budget breakdown</div>
+        <div class="suggest-breakdown" id="suggest-breakdown"></div>
+      </div>
+      <div class="card">
+        <div class="card-label">Adjust if you want</div>
+        <div class="field">
+          <label>Monthly spending budget</label>
+          <div class="input-wrap">
+            <span class="prefix">€</span>
+            <input class="has-prefix" id="custom-budget" inputmode="decimal" type="number"/>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="btn-confirm" style="margin-bottom:40px">Looks good, let's start 🎉</button>
+    </div>
+  </div>
+
+  <!-- ─── HOME ─────────────────────────────────────────── -->
+  <div class="screen" id="screen-home">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">Hey <span id="home-name"></span> 👋</div>
+        <div class="topbar-sub" id="home-date"></div>
+      </div>
+      <div class="streak-badge streak-zero" id="streak-badge">
+        <span class="streak-flame">🔥</span><span>0</span>
+      </div>
     </div>
 
-    <!-- ─── SUGGEST ─────────────────────────────────────────── -->
-    <div class="screen" id="screen-suggest">
-        <div class="topbar">
+    <div class="xp-banner">
+      <div class="level-pill" id="level-pill">
+        <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span>Lvl 1 · Seedling</span>
+      </div>
+      <div class="xp-track">
+        <div class="xp-fill" id="xp-fill" style="width:0%"></div>
+      </div>
+      <div class="xp-label" id="xp-label">0/100 XP</div>
+    </div>
+
+    <div class="scroll-content">
+      <div class="challenge-card" id="challenge-card"></div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-val" id="stat-spent-today">€0.00</div>
+          <div class="stat-lbl">spent today</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="stat-left-today">€0.00</div>
+          <div class="stat-lbl">left today</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+          <div class="card-label" style="margin:0">This month</div>
+          <div id="month-label" style="font-size:13px;font-weight:700;color:var(--text-2)"></div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="month-bar" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="buddy">
+        <div class="buddy-avatar">🌱</div>
+        <div class="buddy-text" id="buddy-tip">Loading...</div>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">Today's expenses</div>
+      </div>
+      <div class="expense-list" id="today-expenses"></div>
+    </div>
+  </div>
+
+  <!-- ─── INSIGHTS ─────────────────────────────────────── -->
+  <div class="screen" id="screen-insights">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">Insights</div>
+        <div class="topbar-sub" id="insights-month"></div>
+      </div>
+    </div>
+    <div class="scroll-content">
+      <div class="insights-total-card">
+        <div id="insights-total">€0.00</div>
+        <div id="insights-budget">of €0 budget</div>
+        <div class="progress-track">
+          <div class="progress-fill" id="insights-bar" style="width:0%"></div>
+        </div>
+      </div>
+
+      <div class="week-chart">
+        <div class="week-chart-title">Daily spending this week</div>
+        <div class="week-bars" id="week-chart-bars"></div>
+      </div>
+
+      <div class="buddy">
+        <div class="buddy-avatar">🌱</div>
+        <div class="buddy-text" id="insights-tip">Loading...</div>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">By category</div>
+      </div>
+      <div class="card">
+        <div id="cat-breakdown"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SETTINGS ─────────────────────────────────────── -->
+  <div class="screen" id="screen-settings">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">Settings</div>
+        <div class="topbar-sub">Your profile & budget</div>
+      </div>
+    </div>
+    <div class="scroll-content">
+
+      <div class="profile-card">
+        <div class="profile-avatar">
+          <span id="profile-avatar-emoji">🌱</span>
+        </div>
+        <div class="profile-info">
+          <div class="profile-name" id="profile-name">—</div>
+          <div class="profile-level" id="profile-level">Level 1 · Seedling 🌱</div>
+          <div class="profile-xp-row">
+            <div class="profile-xp-track">
+              <div class="profile-xp-fill" id="profile-xp-fill" style="width:0%"></div>
+            </div>
+            <div class="profile-xp-text" id="profile-xp-text">0 / 100 XP</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="achievements-btn" onclick="openAchievements()">
+        <div class="achievements-btn-left">
+          <div class="achievements-btn-icon">🏆</div>
+          <div>
+            <div class="achievements-btn-label">Achievements</div>
+            <div class="achievements-btn-count" id="achievements-count">0 of 10 unlocked</div>
+          </div>
+        </div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+
+      <div class="settings-section">
+        <div class="settings-label">Budget</div>
+        <div class="settings-row">
+          <span class="settings-row-label">Monthly income</span>
+          <div style="display:flex;align-items:center;gap:4px">
+            <span style="color:var(--green);font-weight:800">€</span>
+            <input class="settings-input" id="set-income" inputmode="decimal" type="number"/>
+          </div>
+        </div>
+        <div class="settings-row">
+          <span class="settings-row-label">Spending budget</span>
+          <div style="display:flex;align-items:center;gap:4px">
+            <span style="color:var(--green);font-weight:800">€</span>
+            <input class="settings-input" id="set-budget" inputmode="decimal" type="number"/>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="btn-save-settings" style="margin-top:10px">Save changes</button>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-label">Streak</div>
+        <div class="settings-row">
+          <span class="settings-row-label">Current streak 🔥</span>
+          <span class="settings-row-val" id="settings-streak">0 days</span>
+        </div>
+        <div class="streak-info-box">
+          Streak breaks if you:<br>
+          · Go over your daily budget<br>
+          · Hit your monthly limit<br>
+          · Forget to log for a day
+        </div>
+        <div class="shield-row">
+          <div class="shield-row-left">
+            <div class="shield-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
             <div>
-                <div class="topbar-title" id="suggest-greeting">Hey! 👋</div>
-                <div class="topbar-sub">Here's what I suggest</div>
+              <div class="shield-label">Streak Shield</div>
+              <div class="shield-sub">Auto-activates once per week</div>
             </div>
+          </div>
+          <div class="shield-use-btn" id="btn-use-shield" style="pointer-events:none">Ready</div>
         </div>
-        <div class="scroll-content">
-            <div class="buddy" style="margin-top:8px">
-                <div class="buddy-avatar">🌱</div>
-                <div class="buddy-text" id="suggest-msg"></div>
-            </div>
-            <div class="card">
-                <div class="card-label">Your budget breakdown</div>
-                <div class="suggest-breakdown" id="suggest-breakdown"></div>
-            </div>
-            <div class="card">
-                <div class="card-label">Adjust if you want</div>
-                <div class="field">
-                    <label>Monthly spending budget</label>
-                    <div class="input-wrap">
-                        <span class="prefix">€</span>
-                        <input class="has-prefix" id="custom-budget" inputmode="decimal" type="number"/>
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-primary" id="btn-confirm" style="margin-bottom:32px">Looks good, let's start 🎉
-            </button>
-        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-label">Data</div>
+        <button class="btn btn-danger" id="btn-reset">Reset all data</button>
+      </div>
+
     </div>
+  </div>
 
-    <!-- ─── HOME ────────────────────────────────────────────── -->
-    <div class="screen" id="screen-home">
-        <div class="topbar">
-            <div>
-                <div class="topbar-title">Hey <span id="home-name"></span> 👋</div>
-                <div class="topbar-sub" id="home-date"></div>
-            </div>
-            <div class="streak-badge streak-zero" id="streak-badge">
-                <span class="streak-flame">🔥</span><span>0</span>
-            </div>
+  <!-- ─── ADD EXPENSE ───────────────────────────────────── -->
+  <div class="screen" id="screen-add" style="display:none;z-index:60">
+    <div class="add-header">
+      <div class="add-header-row">
+        <div>
+          <h2>Log expense</h2>
+          <p>Keep that streak alive 🔥</p>
         </div>
-        <div class="scroll-content">
-            <div class="buddy">
-                <div class="buddy-avatar">🌱</div>
-                <div class="buddy-text" id="buddy-tip">Loading...</div>
-            </div>
-
-            <div class="card">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-                    <div class="card-label" style="margin:0">This month</div>
-                    <div id="month-label" style="font-size:13px;font-weight:700;color:var(--text-2)"></div>
-                </div>
-                <div class="progress-track">
-                    <div class="progress-fill" id="month-bar" style="width:0%"></div>
-                </div>
-            </div>
-
-            <div class="stat-grid">
-                <div class="stat-card">
-                    <div class="stat-val" id="stat-spent-today">€0.00</div>
-                    <div class="stat-lbl">spent today</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-val" id="stat-left-today">€0.00</div>
-                    <div class="stat-lbl">left today</div>
-                </div>
-            </div>
-
-            <div class="section-header">
-                <div class="section-title">Today's expenses</div>
-            </div>
-            <div class="expense-list" id="today-expenses"></div>
-        </div>
-    </div>
-
-    <!-- ─── INSIGHTS ────────────────────────────────────────── -->
-    <div class="screen" id="screen-insights">
-        <div class="topbar">
-            <div>
-                <div class="topbar-title">Insights</div>
-                <div class="topbar-sub" id="insights-month"></div>
-            </div>
-        </div>
-        <div class="scroll-content">
-            <div class="card" style="text-align:center;padding:24px 18px">
-                <div id="insights-total" style="font-size:36px;font-weight:900;color:var(--text)">€0.00</div>
-                <div id="insights-budget"
-                     style="font-size:14px;font-weight:600;color:var(--text-2);margin-bottom:14px"></div>
-                <div class="progress-track">
-                    <div class="progress-fill" id="insights-bar" style="width:0%"></div>
-                </div>
-            </div>
-            <div class="buddy">
-                <div class="buddy-avatar">🌱</div>
-                <div class="buddy-text" id="insights-tip">Loading...</div>
-            </div>
-            <div class="section-header">
-                <div class="section-title">By category</div>
-            </div>
-            <div class="card">
-                <div id="cat-breakdown"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ─── SETTINGS ────────────────────────────────────────── -->
-    <div class="screen" id="screen-settings">
-        <div class="topbar">
-            <div>
-                <div class="topbar-title">Settings</div>
-                <div class="topbar-sub">Adjust your budget anytime</div>
-            </div>
-        </div>
-        <div class="scroll-content">
-            <div class="settings-section">
-                <div class="settings-label">Your budget</div>
-                <div class="settings-row">
-                    <span class="settings-row-label">Monthly income</span>
-                    <div style="display:flex;align-items:center;gap:4px">
-                        <span style="color:var(--green);font-weight:800">€</span>
-                        <input class="settings-input" id="set-income" inputmode="decimal" type="number"/>
-                    </div>
-                </div>
-                <div class="settings-row">
-                    <span class="settings-row-label">Spending budget</span>
-                    <div style="display:flex;align-items:center;gap:4px">
-                        <span style="color:var(--green);font-weight:800">€</span>
-                        <input class="settings-input" id="set-budget" inputmode="decimal" type="number"/>
-                    </div>
-                </div>
-                <button class="btn btn-primary" id="btn-save-settings" style="margin-top:8px">Save changes</button>
-            </div>
-
-            <div class="settings-section">
-                <div class="settings-label">Streak info</div>
-                <div class="settings-row">
-                    <span class="settings-row-label">Current streak 🔥</span>
-                    <span class="settings-row-val" id="settings-streak">0 days</span>
-                </div>
-                <div style="background:var(--surface);border-radius:var(--radius-sm);padding:14px 16px;box-shadow:var(--shadow);font-size:13px;font-weight:600;color:var(--text-2);line-height:1.6">
-                    Your streak breaks if you:<br>
-                    • Go over your daily budget<br>
-                    • Hit your monthly limit<br>
-                    • Forget to log for a day
-                </div>
-            </div>
-
-            <div class="settings-section">
-                <div class="settings-label">Data</div>
-                <button class="btn btn-danger" id="btn-reset">Reset all data</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ─── ADD EXPENSE (slide up) ──────────────────────────── -->
-    <div class="screen" id="screen-add" style="display:none;z-index:60;background:var(--bg)">
-        <div class="add-header">
-            <div style="display:flex;justify-content:space-between;align-items:center">
-                <div>
-                    <h2>Log expense</h2>
-                    <p>Keep that streak alive 🔥</p>
-                </div>
-                <button id="btn-cancel-add"
-                        style="background:var(--surface-2);border:none;width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center">
-                    ✕
-                </button>
-            </div>
-        </div>
-
-        <div class="amount-display">
-            <span class="amount-prefix">€</span>
-            <span class="amount-value" id="amount-value">0</span>
-        </div>
-
-        <div class="cat-scroll" id="cat-scroll"></div>
-
-        <div class="desc-wrap">
-            <input id="exp-desc" placeholder="What was it? e.g. oat milk latte" type="text"/>
-        </div>
-
-        <div class="numpad" id="numpad">
-            <button class="numpad-btn" data-val="1">1</button>
-            <button class="numpad-btn" data-val="2">2</button>
-            <button class="numpad-btn" data-val="3">3</button>
-            <button class="numpad-btn" data-val="4">4</button>
-            <button class="numpad-btn" data-val="5">5</button>
-            <button class="numpad-btn" data-val="6">6</button>
-            <button class="numpad-btn" data-val="7">7</button>
-            <button class="numpad-btn" data-val="8">8</button>
-            <button class="numpad-btn" data-val="9">9</button>
-            <button class="numpad-btn dot" data-val=".">·</button>
-            <button class="numpad-btn zero" data-val="0">0</button>
-            <button class="numpad-btn del" data-val="del">⌫</button>
-        </div>
-
-        <div class="save-wrap">
-            <button class="btn btn-primary" id="btn-save-expense" style="flex:1">Save ✓</button>
-        </div>
-    </div>
-
-    <!-- ─── FAB ─────────────────────────────────────────────── -->
-    <button aria-label="Log expense" class="fab hidden" id="fab">+</button>
-
-    <!-- ─── BOTTOM NAV ──────────────────────────────────────── -->
-    <nav class="bottom-nav">
-        <button class="nav-btn" data-tab="home">
-            <span class="nav-icon">🏠</span>
-            Home
+        <button class="btn-icon-close" id="btn-cancel-add">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
-        <button class="nav-btn" data-tab="insights">
-            <span class="nav-icon">📊</span>
-            Insights
-        </button>
-        <button class="nav-btn" data-tab="settings">
-            <span class="nav-icon">⚙️</span>
-            Settings
-        </button>
-    </nav>
+      </div>
+      <div class="xp-preview" id="xp-preview">
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span>+30 XP</span>
+      </div>
+    </div>
 
-    <!-- ─── CELEBRATION LAYER ───────────────────────────────── -->
-    <div id="celebration"></div>
+    <div class="amount-display">
+      <span class="amount-prefix">€</span>
+      <span class="amount-value" id="amount-value">0</span>
+    </div>
+
+    <div class="cat-scroll" id="cat-scroll"></div>
+
+    <div class="desc-wrap">
+      <input id="exp-desc" placeholder="What was it? e.g. oat milk latte" type="text"/>
+    </div>
+
+    <div class="numpad" id="numpad">
+      <button class="numpad-btn" data-val="1">1</button>
+      <button class="numpad-btn" data-val="2">2</button>
+      <button class="numpad-btn" data-val="3">3</button>
+      <button class="numpad-btn" data-val="4">4</button>
+      <button class="numpad-btn" data-val="5">5</button>
+      <button class="numpad-btn" data-val="6">6</button>
+      <button class="numpad-btn" data-val="7">7</button>
+      <button class="numpad-btn" data-val="8">8</button>
+      <button class="numpad-btn" data-val="9">9</button>
+      <button class="numpad-btn dot" data-val=".">·</button>
+      <button class="numpad-btn zero" data-val="0">0</button>
+      <button class="numpad-btn del" data-val="del">⌫</button>
+    </div>
+
+    <div class="save-wrap">
+      <button class="btn btn-primary" id="btn-save-expense">Save ✓</button>
+    </div>
+  </div>
+
+  <!-- ─── FAB ──────────────────────────────────────────── -->
+  <button aria-label="Log expense" class="fab hidden" id="fab">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+  </button>
+
+  <!-- ─── BOTTOM NAV ────────────────────────────────────── -->
+  <nav class="bottom-nav">
+    <button class="nav-btn" data-tab="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </button>
+    <button class="nav-btn" data-tab="insights">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Insights
+    </button>
+    <button class="nav-btn" data-tab="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+      Settings
+    </button>
+  </nav>
+
+  <!-- ─── ACHIEVEMENTS OVERLAY ─────────────────────────── -->
+  <div id="achievements-overlay" style="display:none">
+    <div class="achievements-header">
+      <h2>Achievements</h2>
+      <button class="btn-icon-close" onclick="closeAchievements()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="achievements-grid" id="achievements-grid"></div>
+  </div>
+
+  <!-- ─── CELEBRATION LAYER ────────────────────────────── -->
+  <div id="celebration"></div>
 
 </div>
 
